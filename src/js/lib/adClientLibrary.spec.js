@@ -70,6 +70,19 @@ describe('adClientLibrary - unit tests', function() {
         expect(myAdInstance.runAd.calls.count()).toBe(3);
     });
 
+    it('setUpdateInterval() - called at the beggining, before runAd()', function() {
+        myAdInstance.setUpdateInterval(5);
+
+        spyOn(myAdInstance, 'runAd').and.callThrough();
+
+        expect(myAdInstance.runAd.calls.count()).toBe(0);
+
+        myAdInstance.runAd();
+
+        jasmine.clock().tick(4001);
+        expect(myAdInstance.runAd.calls.count()).toBe(1);
+    });
+
     it('setUpdateInterval()', function() {
         spyOn(myAdInstance, 'runAd').and.callThrough();
 
@@ -83,6 +96,37 @@ describe('adClientLibrary - unit tests', function() {
         // but after first call we changed interval to 2 second, so it has been called only 5 times
         jasmine.clock().tick(8001);
         expect(myAdInstance.runAd.calls.count()).toBe(5);
+    });
+
+    it('testing constructor - invalid "containerId"', function() {
+        spyOn(console, 'error').and.callThrough();
+
+        var adInstance = new wisp.AdClientLibrary({
+            'containerId': 'topBannerrrr',
+            'updateInterval': 5
+        });
+
+        expect(console.error.calls.count()).toBe(1);
+        expect(console.error).toHaveBeenCalledWith('Wrong "containerId" - "topBannerrrr". There is no such element with that id.');
+
+        spyOn(adInstance, 'runAd').and.callThrough();
+
+        adInstance.runAd();
+
+        jasmine.clock().tick(8001);
+        expect(adInstance.runAd.calls.count()).toBe(1);
+    });
+
+    it('testing constructor - invalid "updateInterval"', function() {
+        spyOn(console, 'error').and.callThrough();
+
+        var adInstance = new wisp.AdClientLibrary({
+            'containerId': 'topBanner',
+            'updateInterval': '5aa'
+        });
+
+        expect(console.error.calls.count()).toBe(1);
+        expect(console.error).toHaveBeenCalledWith('Wrong "updateInterval" - "5aa". Please provide valid number.');
     });
 
     afterEach(function() {

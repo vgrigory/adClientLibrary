@@ -28,6 +28,8 @@ module.exports = function karmaConfig (config) {
 
     colors: true,
 
+    loggers: [{type: 'console'}],
+
     browsers: [
       // Run tests using PhantomJS
       'PhantomJS'

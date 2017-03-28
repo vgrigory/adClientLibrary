@@ -8,22 +8,24 @@ wisp.AdClientLibrary = AdClientLibrary;
 
 let myAdInstance = new wisp.AdClientLibrary({
     'containerId': 'topBanner',
-    'updateInterval': 1
+    'updateInterval': 3
 });
+
+// myAdInstance.setUpdateInterval(1);
 
 myAdInstance.runAd();
 
-let myAdInstance2 = new wisp.AdClientLibrary({
-    'containerId': 'bottomBanner',
-    'updateInterval': 5
-});
+// let myAdInstance2 = new wisp.AdClientLibrary({
+//     'containerId': 'bottomBanner',
+//     'updateInterval': 5
+// });
 
-myAdInstance2.runAd();
+// myAdInstance2.runAd();
 
-// setTimeout(function () {
+// setTimeout(() => {
 //     console.log('changed interval');
 //     myAdInstance.setUpdateInterval(10);
 // },
-// 5000);
+// 8000);
 
 export {AdClientLibrary};
